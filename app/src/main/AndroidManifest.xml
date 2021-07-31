@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yuqiaodan.mydemo">
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <application
+        android:name=".base.App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyDemo">
+        <activity android:name=".ui.simplestep.StepActivity"></activity>
+        <activity android:name=".ui.notify.NotifyActivity" />
+        <activity
+            android:name=".ui.notify.AlertActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity="main.alert" />
+        <activity android:name=".ui.home.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
