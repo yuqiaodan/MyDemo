@@ -3,6 +3,7 @@ package com.yuqiaodan.mydemo.base
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import com.tencent.mmkv.MMKV
 
 
 /**
@@ -19,7 +20,6 @@ class App : Application() {
         super.onCreate()
         context = applicationContext
 
-
         ActivityLifeCycle().track(this, object : ActivityLifeCycle.AppStateChangeListener {
             override fun appTurnIntoForeground() {
                 Log.d("ActivityLifeCycle", "Application从后台返回前台")
@@ -31,6 +31,8 @@ class App : Application() {
 
             }
         })
+
+        MMKV.initialize(this)
 
         startTimeWork()
     }
