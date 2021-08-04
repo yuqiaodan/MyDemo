@@ -17,10 +17,29 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../my_demo_release")
+            storePassword "yuqiaodan123"
+            keyAlias "my_demo_release"
+            keyPassword "yuqiaodan123"
+            v2SigningEnabled true
+        }
+        debug {
+            storeFile file("../my_demo_release")
+            storePassword "yuqiaodan123"
+            keyAlias "my_demo_release"
+            keyPassword "yuqiaodan123"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+
         }
     }
     compileOptions {
