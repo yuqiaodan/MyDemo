@@ -7,7 +7,6 @@
     tools:context=".ui.home.MainActivity">
 
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,15 +23,32 @@
             <Button
                 android:id="@+id/btn_send_notify"
                 android:layout_width="wrap_content"
-                android:text="发送通知界面"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="发送通知界面" />
 
 
             <Button
                 android:id="@+id/btn_step_page"
                 android:layout_width="wrap_content"
-                android:text="运动计步"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="运动计步" />
+
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Button" />
+
+
+            <TextView
+                android:id="@+id/tv_text_test"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="20sp" />
+
 
         </LinearLayout>
 
