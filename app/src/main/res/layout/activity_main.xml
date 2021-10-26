@@ -23,6 +23,7 @@
             <Button
                 android:id="@+id/btn_send_notify"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="发送通知界面" />
 
@@ -30,6 +31,7 @@
             <Button
                 android:id="@+id/btn_step_page"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="运动计步" />
 

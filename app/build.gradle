@@ -55,8 +55,14 @@ android {
     }
 }
 
-dependencies {
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
@@ -73,8 +79,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
 
-    implementation 'cn.jiguang.sdk:jpush:4.3.0'
-    implementation 'cn.jiguang.sdk:jcore:2.9.0'
-    implementation 'cn.jiguang.sdk:janalytics:2.1.4'
+    implementation(name: 'mediation_ad_sdk_3.0.1.0', ext: 'aar')
+    implementation(name: 'open_ad_sdk_4.0.1.1', ext: 'aar')
+
 
 }

@@ -3,8 +3,6 @@ package com.yuqiaodan.mydemo.base
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import cn.jiguang.analytics.android.api.JAnalyticsInterface
-import cn.jpush.android.api.JPushInterface
 import com.tencent.mmkv.MMKV
 
 
@@ -16,12 +14,17 @@ import com.tencent.mmkv.MMKV
 class App : Application() {
     companion object {
         lateinit var context: Context
+        lateinit var instance: App
     }
+
+    init {
+        instance = this
+    }
+
 
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-
         ActivityLifeCycle().track(this, object : ActivityLifeCycle.AppStateChangeListener {
             override fun appTurnIntoForeground() {
                 Log.d("ActivityLifeCycle", "Application从后台返回前台")
@@ -36,24 +39,12 @@ class App : Application() {
 
         MMKV.initialize(this)
 
-        startTimeWork()
-
-        JPushInterface.init(this)
-        JAnalyticsInterface.init(this)
     }
 
 
-    private fun startTimeWork() {
-        Log.d("TimeWorker", "startTimeWork")
-
-
-/*        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(TimeWorker::class.java) //一次性Work请求
-            .setInputData(data)
-            .build()*/
-
-       // val periodicWorkRequest= PeriodicWorkRequest.Builder(TimeWorker::class.java,10,TimeUnit.MILLISECONDS).build()
-
-
-        //WorkManager.getInstance(this).enqueue(periodicWorkRequest)
+    fun initThirdSDK() {
+        GMAdManagerHolder.init(this);
     }
+
+
 }

@@ -10,6 +10,9 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.bytedance.msdk.api.TTAdConstant
+import com.bytedance.msdk.api.TTMediationAdSdk
+import com.yuqiaodan.mydemo.BuildConfig
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.base.App
 import com.yuqiaodan.mydemo.http.bean.EventBean
@@ -21,12 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainLog"
 
 
-    val cacheList = arrayListOf(
-        EventBean("a", "1"),
-        EventBean("b", "1"),
-        EventBean("c", "1"),
-        EventBean("d", "1")
-    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_send_notify).setOnClickListener(this)
         findViewById<View>(R.id.btn_step_page).setOnClickListener(this)
         findViewById<View>(R.id.btn_test).setOnClickListener(this)
-        requestSplashPerm()
+
     }
 
 
@@ -51,21 +49,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_step_page -> {
                 startActivity(Intent(this, StepActivity::class.java))
-
-
             }
 
             R.id.btn_test -> {
-                val key="perfect"
-
-                val srting1="C0cTCAERGxkBLQ8BQU5SVhFSBlNESFZGXwRTQElXF0RJQRUAFS0KDBAAUl8pO0lBFgIEHAJHWVYfFQIJR09WEw0TCAsGGFJfUAkVExtSSVACABURHAoCAxdBTlIRABMAQVhSARcQDAdWSkdQSkcKGRUMUFxHQVhSCR0FBBcdHwtQXB5BFRQBAAMWEFZKR1BKRwIbGQsTCwBBTlJHXkQGCgAJR0hER09WFAwBEhcKFwRHSERHT1YcBAYPR1lWUklQCgoNVkpHUEpHDQEdBxcUR1lWUklQFgoKGhEIF0RfQVZcRwIUChUdHgYXRF9BVlxHAAkEB1ZKR1BKRxAAAgAXEkdZVlIYXkQIAhdSX1BESUEZHwEXCkdZVh8VAglFEU0DEVBKRwwVGQFQXEdBWFIKATkTBgZSX1BQS1NaQUdeRBUIE1JfUAUKDloRCxYUCgoQXgkbAQ0XWhMKBURJQQYfCFBcRwwEAApQSkcRGx06BAMXQU5SVlxWR09WAgodEkdZVhYEHhUAQVhSFhsLR1lWFgQeFQBBWFIWAQ8BQU5SR15EEwYGLwYdAgBBTlJUQlZUVFZcRwQDFzwaEQgXRF9BRV5VXFdSQQk="
-
-                val srting2="C0cTCAERGxkBLQ8BQU5SUBADXFoWQwYWVgcFQRJRQ0RJQRUAFS0KDBAAUl8pO0lBFgIEHAJHWVYYChwJF0FYUgYaBwsNERxHSEQdChUfCBtESUEQFRMXCgoTEQJHSEQREQEVR15EAQYCGQFQXEcHRkdSRFFVBxBHBkdXAwVAR1UTVV1aFhZTEQAGU0ETAFBKRwoZFQxQXEdBWFIJHQUEFx0fC1BcHkEVFAEAAxYQVkpH5Zqp5ba7552k5omz6YKJ5bmy5qyD5L+d5Y2c5Lmz57uJ5Z665Yyn6LaK6ZyS6L635bmm6KCA5a+W5qG4TeabsOWAuuiRgOS5uV1SSVAHCgoaEQgXRF9B5aWd5bus6LyK5LqE5ZqLJuWNmVZcRxEPERpWSkfmiaLpgpvluadBWFIBGxURER0TEVBcR+asheS/m+WNikdeRAkCABlHSERWU1pFUUNWUVFWXEceCQtBTlJUQlJLU0NCUkVVR09WHhAfBAARVkpHR19d5Y6UVlxHAgkMDRUdAFBcR+W5oOigl+WvkuahrVrmm6TlgLnokYbkua5ZR15EFREbBgwcBQBBTlLlmr7ltq/nnadHT1YCChMCR1lW5Lmm57uP5Z685Yyx6LaKQVhSFgYUAAYAUl9Q5Lmw57uP5Z6t5Yyj6LafRw9KRw4VE0dIRFFbTkMjSCNcWUNJX0pSX1FAUklQCwoHERxHSEQNEQ1dBB5WVRcVUklQCQQKEFJfUAUDBxBGUkdfSFQWFgZfX1FXEV0DEAAAThBHA0tRAAASQwYUB0dPVh8WLRAAEVZKR0NWR09WAA4VRF9BFx8IXAcLBwYfDBZICQoTGBFcBQoUVlxHAAkIQU5SAB8TDEFYUhcdCzoVEQJHSERUU1pAS0JESUEGHwoGRF9BEhEJAQNHT1YDDB9EX0ESEQkBA0dPVgMWGwJHWVYkJ18yAAIZIUdeRBMGBi8GHQIAQU5SVEJWVFRWXEcEAxc8GhEIF0RfQUVeVVxXUkEJ"
-                EncryptUtils.decodeString(key,srting1)
-                EncryptUtils.decodeString(key,srting2)
-
-                hasPermissionLocation(App.context)
-
+                App.instance.initThirdSDK()
             }
 
 
@@ -73,6 +60,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+/*    val cacheList = arrayListOf(
+        EventBean("a", "1"),
+        EventBean("b", "1"),
+        EventBean("c", "1"),
+        EventBean("d", "1")
+    )*/
+
+/*
     private fun requestSplashPerm(): Boolean {
         val splashPerms = arrayListOf<String>()
         splashPerms.add(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -121,6 +116,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         return true
     }
+*/
 
 
 }
