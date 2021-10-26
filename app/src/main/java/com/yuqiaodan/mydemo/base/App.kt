@@ -3,6 +3,8 @@ package com.yuqiaodan.mydemo.base
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import cn.jiguang.analytics.android.api.JAnalyticsInterface
+import cn.jpush.android.api.JPushInterface
 import com.tencent.mmkv.MMKV
 
 
@@ -35,6 +37,9 @@ class App : Application() {
         MMKV.initialize(this)
 
         startTimeWork()
+
+        JPushInterface.init(this)
+        JAnalyticsInterface.init(this)
     }
 
 

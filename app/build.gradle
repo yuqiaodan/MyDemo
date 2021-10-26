@@ -13,7 +13,11 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "d68c6e6d71155f008e3f488a", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -64,5 +68,13 @@ dependencies {
     implementation 'com.tencent:mmkv-static:1.2.10'
 
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+
+    implementation 'cn.jiguang.sdk:jpush:4.3.0'
+    implementation 'cn.jiguang.sdk:jcore:2.9.0'
+    implementation 'cn.jiguang.sdk:janalytics:2.1.4'
 
 }
