@@ -23,7 +23,6 @@
             <Button
                 android:id="@+id/btn_send_notify"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="发送通知界面" />
 
@@ -31,25 +30,53 @@
             <Button
                 android:id="@+id/btn_step_page"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:text="运动计步" />
 
 
-            <Button
-                android:id="@+id/btn_test"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Button" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_init_sdk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="初始化GM SDK" />
+
+                <Button
+                    android:id="@+id/rq_prem"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="请求权限" />
+
+                <Button
+                    android:id="@+id/btn_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="更新GM SDK权限" />
+
+
+            </LinearLayout>
 
 
             <TextView
                 android:id="@+id/tv_text_test"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/color_333333"
                 android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试按钮" />
 
 
         </LinearLayout>

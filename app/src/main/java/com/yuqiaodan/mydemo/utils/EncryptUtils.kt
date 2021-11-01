@@ -28,6 +28,7 @@ object EncryptUtils {
             val code = char.code xor key.get(index % key.length).code
             stringBuilder.append(Char(code))
         }
+
         val result = Base64.encodeToString(stringBuilder.toString().toByteArray(), Base64.NO_WRAP)
 
 
@@ -42,13 +43,14 @@ object EncryptUtils {
         if (TextUtils.isEmpty(string)) {
             return ""
         }
+
         val base64 = String(Base64.decode(string, Base64.NO_WRAP))
         val stringBuilder = StringBuilder()
         base64.forEachIndexed { index, char ->
             val code = char.code xor key.get(index % key.length).code
             stringBuilder.append(Char(code))
         }
-        Log.d("EncryptUtils","解密原值：$string \n解密结果：$stringBuilder")
+        Log.d("EncryptUtils","解密结果：$stringBuilder")
         return stringBuilder.toString()
     }
 }
