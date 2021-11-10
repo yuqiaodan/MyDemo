@@ -43,7 +43,7 @@ class App : Application() {
 
 
     fun initThirdSDK() {
-        GMAdManagerHolder.init(this);
+
     }
 
 

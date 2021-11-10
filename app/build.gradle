@@ -8,11 +8,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.tomato.mydemo"
+        applicationId "test.yuqiaodan.demo"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
                 JPUSH_APPKEY : "d68c6e6d71155f008e3f488a", //JPush 上注册的包名对应的 Appkey.
@@ -78,9 +78,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
 
-
-    implementation(name: 'mediation_ad_sdk_3.0.1.0', ext: 'aar')
-    implementation(name: 'open_ad_sdk_4.0.1.1', ext: 'aar')
 
 
 }
