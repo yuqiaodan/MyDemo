@@ -4,7 +4,7 @@ import android.util.Log
 
 /**
  * Created by qiaodan on 2021/11/3
- * Description:
+ * Description:处理字符串中携带的emoji表情
  */
 class EmojiUtils {
     val TAG="EmojiUtils"
@@ -103,4 +103,9 @@ class EmojiUtils {
         }
         return true
     }
+
+
+
+
+
 }

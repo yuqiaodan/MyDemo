@@ -1,0 +1,3 @@
+[submodule "asuka"]
+	path = asuka
+	url = http://gitlab.testbird.com/cleancow/asuka.git
