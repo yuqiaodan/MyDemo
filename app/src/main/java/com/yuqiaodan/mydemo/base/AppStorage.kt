@@ -22,4 +22,21 @@ object AppStorage {
             mmkv.encode("system_step", value)
         }
         get() = mmkv.decodeInt("system_step", 0)
+
+
+    var userLtv: Float
+        get() {
+            return mmkv.decodeFloat("user_ltv", 0f)
+        }
+        set(value) {
+            mmkv.encode("user_ltv", value)
+        }
+
+    var lastSendStep: Int
+        set(value) {
+            mmkv.encode("last_send_ltv_step", value)
+        }
+        get() = mmkv.decodeInt("last_send_ltv_step", -1)
+
+
 }

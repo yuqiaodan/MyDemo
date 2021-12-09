@@ -12,7 +12,7 @@ import android.util.Log
  * Description:电池工具类 获取各种电池信息
  * 参考博客：https://www.jianshu.com/p/0ad72190eac6
  */
-class BatteryUtils {
+object BatteryUtils {
     val TAG="BatteryUtils"
     /**
      * 获取电池容量
@@ -99,7 +99,7 @@ class BatteryUtils {
         val status = intent?.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN)
         //充电方式
         val plugged = intent?.getIntExtra("plugged", 0)
-        //电池监控程度
+        //电池健康程度
         val health = intent?.getIntExtra("health", BatteryManager.BATTERY_HEALTH_UNKNOWN)
         //电池电压
         val voltage = intent?.getIntExtra("voltage", 0)

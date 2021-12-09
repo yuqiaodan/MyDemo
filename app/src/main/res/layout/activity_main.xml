@@ -54,13 +54,6 @@
                     android:layout_marginEnd="2dp"
                     android:text="请求权限" />
 
-                <Button
-                    android:id="@+id/btn_update"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="更新GM SDK权限" />
-
-
             </LinearLayout>
 
 
@@ -78,6 +71,11 @@
                 android:layout_height="wrap_content"
                 android:text="测试Btn" />
 
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="刷新" />
 
         </LinearLayout>
 
