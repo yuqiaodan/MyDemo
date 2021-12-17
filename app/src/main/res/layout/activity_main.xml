@@ -39,12 +39,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_init_sdk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
-                    android:text="初始化GM SDK" />
+
 
                 <Button
                     android:id="@+id/rq_prem"
@@ -56,14 +51,12 @@
 
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/tv_text_test"
+            <Button
+                android:id="@+id/btn_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/color_333333"
-                android:textSize="20sp" />
+                android:text="刷新" />
+
 
             <Button
                 android:id="@+id/btn_test"
@@ -71,11 +64,14 @@
                 android:layout_height="wrap_content"
                 android:text="测试Btn" />
 
-            <Button
-                android:id="@+id/btn_update"
+            <TextView
+                android:id="@+id/tv_text_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="刷新" />
+                android:layout_marginTop="10dp"
+
+                android:textColor="@color/color_333333"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

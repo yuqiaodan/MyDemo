@@ -1,9 +1,7 @@
 package com.yuqiaodan.mydemo;
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,26 +9,28 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by lamandys on 2020/4/10 9:49 AM.
- * 查阅字码网站： https://www.cnblogs.com/csguo/p/7401874.html
+ * Created by yuqiaodan 2021/12
+ * JAVA生成混淆字典
  */
 public class ProguardGenerateClass {
 
+    //字典样本
+    private static List<String> SOURCE = Arrays.asList("i", "I", "1", "l");
+    //字典行数
+    private static int LENGTH = 10000;
+    //输出路径
     private static final String ROOT_PATH = System.getProperty("user.dir") + "/app/";
+    //输出名称
+    private static final String FILE_NAME = "output_dict.txt";
+
     private static Random random = new Random();
 
+
     public static void main(String[] args) {
-        int start = 0x0100;
-        int end = 0xDFFF;
-        List<String> unicodeList = new ArrayList<String>(end - start);
-        for (int i = start; i < end; i++) {
-            char c = (char) i;
-            String s = String.valueOf(c);
-            unicodeList.add(s);
-        }
-        //unicodeList.addAll(Arrays.asList("apple", "banana", "orange"));
+        List<String> unicodeList = new ArrayList(SOURCE);
+        List<String> outputList = new ArrayList<String>();
         Collections.sort(unicodeList);
-        File file = new File(ROOT_PATH, "output_dict.txt");
+        File file = new File(ROOT_PATH, FILE_NAME);
         if (file.exists()) {
             System.out.println("文件已存在，删除");
             file.delete();
@@ -38,41 +38,35 @@ public class ProguardGenerateClass {
             System.out.println("文件不存在");
         }
 
-        String filePath = ROOT_PATH + "comm_dict.txt";
-        List<String> commList = new ArrayList<>();
         String encoding = "UTF-8";
-        try {
-            File file1 = new File(filePath);
-            if (file1.isFile() && file1.exists()) { // 判断文件是否存在
-                InputStreamReader read = new InputStreamReader(new FileInputStream(file1), encoding);// 考虑到编码格式
-                BufferedReader bufferedReader = new BufferedReader(read);
-                String lineTxt;
-                while ((lineTxt = bufferedReader.readLine()) != null) {
-                    commList.add(lineTxt);
-                }
-                bufferedReader.close();
-                read.close();
-            } else {
-                System.out.println("找不到指定的文件");
-            }
-        } catch (Exception e) {
-            System.out.println("读取文件内容出错");
-            e.printStackTrace();
-        }
+        int repeatCount = 0;
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            for (int i = 0; i < commList.size(); i++) {
-                String aa = commList.get(i);
-                String tmp;
-                if (aa.length() > 2) {
-                    int index = (int) Math.floor(aa.length() / 2.0);
-                    tmp = aa.substring(index) + unicodeList.get(i) + commList.get(i).substring(index, aa.length()) + getRandomString(unicodeList) + unicodeList.get(i);
-                } else {
-                    tmp = commList.get(i) + unicodeList.get(i) + getRandomString(unicodeList) + unicodeList.get(i);
+            int i = 0;
+            while (i < LENGTH) {
+                String tmp = "";
+                int width = random.nextInt(10) + 4;
+                for (int j = 0; j < width; j++) {
+                    tmp = tmp + getRandomString(unicodeList);
                 }
-                fileOutputStream.write(tmp.getBytes(encoding));
-                fileOutputStream.write('\n');
+                if (!outputList.contains(tmp)) {
+                    i++;
+                    outputList.add(tmp);
+                    fileOutputStream.write(tmp.getBytes(encoding));
+                    if (i < LENGTH) {
+                        //最后一行不输入回车
+                        fileOutputStream.write('\n');
+                    }
+                    repeatCount = 0;
+                } else {
+                    repeatCount++;
+                    System.out.println("重复生成的字符串当前行数--->" + i + " 内容---> " + tmp);
+                    if (repeatCount == 10000) {
+                        System.out.println("连续重复次数超过10000次 已达到最大行数 无法继续生成");
+                        break;
+                    }
+                }
             }
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -83,13 +77,8 @@ public class ProguardGenerateClass {
 
     private static String getRandomString(List<String> list) {
         String tm;
-        while (true) {
-            int s = random.nextInt(4000);
-            if (s < list.size()) {
-                tm = list.get(s);
-                break;
-            }
-        }
+        int s = random.nextInt(list.size());
+        tm = list.get(s);
         return tm;
     }
 }
