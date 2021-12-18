@@ -52,6 +52,7 @@ public class ThreadStudy {
         int test = 111;
 
 
+
         //simpleThread();
         Message msg1 = Message.obtain(null, new Runnable() {
             @Override

@@ -11,8 +11,6 @@ import java.io.InputStream;
  */
 public class ApkUtils {
 
-
-
     /**
      * 39      * APK静默卸载
      * 40      *
@@ -30,6 +28,8 @@ public class ApkUtils {
             return true;
         }
         return false;
+
+
     }
     /**
      * 21      * APK静默安装

@@ -7,16 +7,18 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
-import com.yuqiaodan.mydemo.base.App
-import com.yuqiaodan.mydemo.base.AppStorage
+import com.yuqiaodan.mydemo.eventbus.BusTag
+import com.yuqiaodan.mydemo.eventbus.BusWrapper
 import com.yuqiaodan.mydemo.study.ThreadStudy
 import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
 import com.yuqiaodan.mydemo.ui.simplestep.StepActivity
-import com.yuqiaodan.mydemo.utils.EncryptUtils
-import com.yuqiaodan.mydemo.utils.MD5Utils
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainLog"
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         initView()
 
+
+        EventBus.getDefault().register(this)
+
+
     }
 
 
@@ -36,6 +42,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_update).setOnClickListener(this)
         findViewById<View>(R.id.rq_prem).setOnClickListener(this)
         findViewById<View>(R.id.btn_test).setOnClickListener(this)
+        findViewById<View>(R.id.btn_event_bus_test).setOnClickListener(this)
     }
 
 
@@ -61,11 +68,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.btn_test -> {
                 ThreadStudy().runCountDown(findViewById(R.id.tv_text_test))
+                EventBus.getDefault().postSticky(BusWrapper(BusTag.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY, "这是一条来自MainActivity的黏性事件"))
+            }
+
+            R.id.btn_event_bus_test -> {
+                startActivity(Intent(this, SecondActivity::class.java))
             }
 
         }
     }
-
 
     private fun requestSplashPerm(): Boolean {
         val splashPerms = arrayListOf<String>()
@@ -104,19 +115,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Log.d(TAG, "权限请求完毕 requestCode->$requestCode  permissions-->$permissions  grantResults-->$grantResults")
     }
 
-    private fun testList() {
-        val list = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 9)
-        while (true) {
-            val removeNum = list.removeAt(0)
-            if (removeNum == 1 || removeNum == 2) {
-                list.add(removeNum)
-                Log.d(TAG, "不能移除1或2 重新加回去 当前list-->$list")
-            } else {
-                Log.d(TAG, "移除$removeNum")
-                break
-            }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 1, sticky = true)
+    fun onReceiveMessage(msg: BusWrapper) {
+        Log.d("BusTest", "MainActivity onReceiveMessage:${msg.tag} ")
+        if (msg.verifyMessage(BusTag.SHOW_MSG_FROM_NEXT_ACTIVITY)) {
+            findViewById<TextView>(R.id.tv_event_bus_test).text = msg.getContent()?.toString()
+        }
+        if (msg.verifyMessage(BusTag.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY)) {
+            EventBus.getDefault().removeStickyEvent(msg)
+            Log.d("BusTest", "MainActivity 移除黏性事件")
         }
 
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
 
     }
 

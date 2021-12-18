@@ -69,7 +69,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/color_333333"
+                android:textSize="20sp" />
 
+
+
+            <Button
+                android:id="@+id/btn_event_bus_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试Btn" />
+
+            <TextView
+                android:id="@+id/tv_event_bus_test"
+                android:layout_width="wrap_content"
+                android:text="接收事件"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/color_333333"
                 android:textSize="20sp" />
 
