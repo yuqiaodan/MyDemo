@@ -1,24 +1,35 @@
 package com.yuqiaodan.mydemo.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.KeyguardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
+import com.yuqiaodan.mydemo.base.App
 import com.yuqiaodan.mydemo.eventbus.BusTag
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
 import com.yuqiaodan.mydemo.study.ThreadStudy
 import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
 import com.yuqiaodan.mydemo.ui.simplestep.StepActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "MainLog"
@@ -46,6 +57,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("InvalidWakeLockTag")
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn_send_notify -> {
@@ -64,7 +77,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_update -> {
+                val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+                val keyguardManager = App.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+                GlobalScope.launch(Dispatchers.Main) {
+                    while (true) {
+                        delay(5000L)
+                        Log.d(TAG, "屏幕是否点亮 --> ${pm.isInteractive}")
+                        Log.d(TAG, "用户是否上锁 --> ${keyguardManager.isKeyguardLocked}")
+                    }
 
+                }
             }
             R.id.btn_test -> {
                 ThreadStudy().runCountDown(findViewById(R.id.tv_text_test))

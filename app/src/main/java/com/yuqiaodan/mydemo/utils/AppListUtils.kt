@@ -1,9 +1,14 @@
 package com.yuqiaodan.mydemo.utils
 
+import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.os.Build
+import android.os.PowerManager
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.gson.Gson
 import com.yuqiaodan.mydemo.base.App
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +32,7 @@ object AppListUtils {
 
 
     private var isInitEx = false
+
 
     fun getQdAppList(action: (List<DevApp>) -> Unit) {
         var exNum = 0
