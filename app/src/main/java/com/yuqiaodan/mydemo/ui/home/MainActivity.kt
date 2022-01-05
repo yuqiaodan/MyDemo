@@ -17,11 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.base.App
-import com.yuqiaodan.mydemo.eventbus.BusTag
+import com.yuqiaodan.mydemo.eventbus.BusEventId
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
 import com.yuqiaodan.mydemo.study.ThreadStudy
 import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
 import com.yuqiaodan.mydemo.ui.simplestep.StepActivity
+import com.yuqiaodan.mydemo.utils.EncryptUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_event_bus_test).setOnClickListener(this)
     }
 
-
+    var eventId=1
     @SuppressLint("InvalidWakeLockTag")
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onClick(v: View?) {
@@ -89,12 +90,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             R.id.btn_test -> {
-                ThreadStudy().runCountDown(findViewById(R.id.tv_text_test))
-                EventBus.getDefault().postSticky(BusWrapper(BusTag.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY, "这是一条来自MainActivity的黏性事件"))
+                //ThreadStudy().runCountDown(findViewById(R.id.tv_text_test))
+                val time=System.currentTimeMillis()
+               val id="StickEvent-$eventId"
+                Log.d("BusTest", "MainActivity 发送黏性事件 id: $id  时间戳：$time")
+                EventBus.getDefault().postSticky(BusWrapper(id, "这是一条来自MainActivity的黏性事件 时间戳： $time"))
+               // EventBus.getDefault().re
+                eventId++
             }
 
             R.id.btn_event_bus_test -> {
+                //getFilePath()
                 startActivity(Intent(this, SecondActivity::class.java))
+
+                val str =
+                    "C0cTCAERGxkBLQ8BQU5SUENXVAASFQdCB1JVF0JdEERJQRUAFS0KDBAAUl8pHUcCBAA6HAcIBlZKRwUPAwrmmI7ogo3ovrvmj5dESUEdAzoBHxYXER1HSAAEDwcVSVAWBAAfEQIXOQsCGRVHSEQGDBleBAgHCwcGHwwWFwoVWgIGFwUREBIRBgYJF00OBAJQG0kYVhEVAjkLAhkVR0hEV1BARea5oOeRtOePrUdPVhkWLRUcEAAVCFBcAwIYAwBeRBUCFxsEFQM6DRUdAFBcRwAbHUsIFUsAGBUEHEQYTw9SBAIWOg0VHQBQXEfmrYHkuKTnjZvlvo7ovqwxDCUdUklQDxY8BwkWBgMIQU4WBB4VAE9WAAQRDQQEES8LEwsAQU5SBh0LSwsXXgQcAhcMHRRLFAcWFwMZAxtEGE8PUgQCFjoNFR0AUFxH5qyF5p+j5omo5LusUEpHCgcvFgsVEQYZUl8UBwkQEVxHAgcGCBUXAC0IBA4RUl9QBQoOWjwAGx8QAhpeEh4cH00aFQQACwBNExEIFwUADQAVF1AbSRhWERUCOQsCGRVHSETlr6zlvqDmubHnkbZHXkQMECsDHAESAA5WSgMTChYGWFIVEwUOAhMVOhwHCAZWSkcRCQhNBhUJGwMDTQcABBEDSw4VAxEXFEsAGBUEHAMXQQlcHlAHFRMrHgQfA0dZVumcouaZgOWEmuiCmxIKEhnkubblr4RESUEdAzoBHxYXER1HSAAEDwcVSVAWBAAfEQIXOQsCGRVHSEQGDVoRCgQHCwcGHwwWFQ4EWhQRBQUREBcfCh5IERcGUhheHUcCBAA6HAcIBlZKR+ikjeeSuuimo+mjslZcRxsVOhANAxEXC0dZEhEJAQNJQQQRBhkHAgYrHgQfA0dZVhMKH0gWEFoRCxYUCgoQXgQAEgwAGBVLBA8BBhtSGF4dRwIEADocBwgGVkpH5YSa5rG35rmg55Gl5Lmn5a+GR15EDBArAxwBEgAOVkoDEwoWBlhSFRMFDgITFTocBwgGVkpHEQkITQUFBBwLDA1aFR0CAxcXVg04XkQHERUeAVBcRwwEAApQSkcAHBELHAMJQU5SHRsHCg4dUklQBQoOBBURGxIMDBpSX1BQR09WFAAEAwkMBBUXUFxHFwYFAFBKRwcRBgwWRF9BRxJRRQJcVRVFAUYEVAJEQ10XAwRSTBRQQgdUAUdHUUVESUEdHQAbRF9BVlxHHgkGAgAZChxEXxhWEQEWFAAQB1JfUERJQRUfDBwHCAZWSkdQSkcAHQQcUFxHQVhSARsVEREdExFQXEdBWFIJExIMQU5SR15ECQwaUl9QRElBGgUIEAMXQU5SR15EFQwdHgQfA0dZVlJJUBYXDAIZCxEDR1lWUklQFAoCEFJfUERJQQcEFxcDEUFOUkcPSkcOFRNHSERRV05GU0ggJllFRl9HVl9WNlJJUAsKBxEcR0hEChMEH0UTXlZBWFIKEw8BQU5SR15EChArBgAARF9BQ15UXFdHT1YADhVEX0EXHwhcBwsHBh8MFkgXBhBeCBMIAgxWXEcCFAobDVJfUAAEDwcVR15EFwwZUl9QBQoPGwIKAURJQQYfCC0QABFWSkdHSFdNRVJJUBQKDABSX1AABA8HFUdeRBYAFR46ExYVPBgZFgZEX0FFUklQFQwOVkpHFAcJEBFSSVAVFgoQUl9QRElBAAIEEQ06ABwRCxwDCUFOUgsHCglBWFITFxQ6ABsUAFBcR1JEQFdHRElBAhUXLQgEDhFSX1BXS1NaQlBQSkcVBB5HSEQDAhgDAFAb"
+
+                EncryptUtils.decodeString("perfect", str)
+
             }
 
         }
@@ -140,16 +153,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 1, sticky = true)
     fun onReceiveMessage(msg: BusWrapper) {
-        Log.d("BusTest", "MainActivity onReceiveMessage:${msg.tag} ")
-        if (msg.verifyMessage(BusTag.SHOW_MSG_FROM_NEXT_ACTIVITY)) {
+        //Log.d("BusTest", "MainActivity onReceiveMessage:${msg.id} ")
+
+       // EventBus.getDefault().removeAllStickyEvents()
+
+        if (msg.verifyMessage(BusEventId.SHOW_MSG_FROM_NEXT_ACTIVITY)) {
             findViewById<TextView>(R.id.tv_event_bus_test).text = msg.getContent()?.toString()
         }
-        if (msg.verifyMessage(BusTag.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY)) {
-            EventBus.getDefault().removeStickyEvent(msg)
-            Log.d("BusTest", "MainActivity 移除黏性事件")
+        if (msg.verifyMessage(BusEventId.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY)) {
+            //EventBus.getDefault().removeStickyEvent(msg)
+            //Log.d("BusTest", "MainActivity 移除黏性事件")
         }
 
 
+    }
+
+
+    private fun getFilePath() {
+        val name = javaClass.name.split(".")
+
+
+        val path = "${name[0]}.${name[1]}.${name[2]}"
+        Log.d(TAG, "path  $path  ${name.size}")
+
+
+        Log.d(TAG, "MainActivity 移除黏性事件")
     }
 
 

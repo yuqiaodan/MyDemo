@@ -1,6 +1,6 @@
 package com.yuqiaodan.mydemo.eventbus
 
-object BusTag {
+object BusEventId {
 
     //普通事件
     const val SHOW_MSG_FROM_NEXT_ACTIVITY = "show_msg_from_next_activity"

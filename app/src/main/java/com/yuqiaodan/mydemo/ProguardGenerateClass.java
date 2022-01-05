@@ -15,7 +15,7 @@ import java.util.Random;
 public class ProguardGenerateClass {
 
     //字典样本
-    private static List<String> SOURCE = Arrays.asList( "d", "p","q");
+    private static List<String> SOURCE = Arrays.asList( "m","n");
     //字典行数
     private static int LENGTH = 10000;
     //输出路径
