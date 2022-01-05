@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
 
     <application
         android:name=".base.App"
@@ -24,7 +26,8 @@
         android:roundIcon="@mipmap/icon_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDemo">
-        <activity android:name=".ui.home.SecondActivity"></activity>
+        <activity android:name=".ui.home.CameraActivity"/>
+        <activity android:name=".ui.home.SecondActivity" />
         <activity android:name=".ui.simplestep.StepActivity" />
         <activity android:name=".ui.notify.NotifyActivity" />
         <activity
