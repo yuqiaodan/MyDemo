@@ -1,10 +1,13 @@
 package com.yuqiaodan.mydemo.ui.home
 
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.otaliastudios.cameraview.CameraView
 import com.yuqiaodan.mydemo.R
+
 
 /**
  * CameraView 测试，框架文档:
@@ -40,6 +43,9 @@ class CameraActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+
+        val animation: Animation = AnimationUtils.loadAnimation(this, R.anim.rotate_anim)
+        //seekBar.startAnimation(animation)
     }
 
 

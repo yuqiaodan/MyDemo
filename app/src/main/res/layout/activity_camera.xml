@@ -15,24 +15,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.yuqiaodan.mydemo.view.VerticalSeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:max="100"
+        android:maxHeight="5dp"
+        android:progressDrawable="@drawable/seek_bar_progress"
+        android:thumb="@mipmap/icon_buoy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:background="#70000000"
-        android:padding="10dp"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+
         <TextView
             android:layout_width="80dp"
             android:layout_height="30dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_common_btn"
+            android:gravity="center"
             android:text="拍照"
-            android:gravity="center"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,22 +57,17 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_common_btn"
-            android:text="录像"
-            android:gravity="center"
-            android:textColor="@color/white"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_common_btn"
+            android:gravity="center"
+            android:text="录像"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <SeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:max="100"
-            android:layout_height="50dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
