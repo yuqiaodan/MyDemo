@@ -4,18 +4,27 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.liulishuo.filedownloader.BaseDownloadTask
+import com.liulishuo.filedownloader.FileDownloadListener
+import com.liulishuo.filedownloader.FileDownloader
 import com.yuqiaodan.mydemo.R
+import com.yuqiaodan.mydemo.base.App
 import com.yuqiaodan.mydemo.eventbus.BusEventId
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
 import com.yuqiaodan.mydemo.ui.activity.GreenDaoActivity
 import com.yuqiaodan.mydemo.utils.EncryptUtils
 import com.yuqiaodan.mydemo.utils.time.CloudTimeUtils
 import com.yuqiaodan.mydemo.utils.time.SNTPClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -61,35 +70,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_test -> {
-                val time1=CloudTimeUtils.getInstance().cloudTimeNoAccurate
-                Log.d(TAG, "直接使用同步方法获取：${ SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time1)}")
 
-
-               /* GlobalScope.launch(Dispatchers.IO) {
-                    delay(5000L)
-                    val time3=CloudTimeUtils.getInstance().cloudTimeNoAccurate
-                    Log.d(TAG, "5秒后重试 直接使用同步方法获取：${ SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time3)}")
-
-                }*/
-
-                /*Log.d(TAG, "---start request time---")
-                CloudTimeUtils.getInstance().requestAsyncCloudTime(object : SNTPClient.Listener {
-                    override fun onTimeReceived(rawDate: String?, timeStamp: Long) {
-                        Log.d(TAG, "onTimeReceived: rawDate: $rawDate  timeStamp: $timeStamp")
-                        Log.d(TAG, "onTimeReceived: 格式化: ${ SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timeStamp)}")
-                        val time2=CloudTimeUtils.getInstance().cloudTimeNoAccurate
-                        Log.d(TAG, "成功一次后再使用同步方法获取： ${ SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time2)}")
-                    }
-
-                    override fun onError(ex: Exception?) {
-                        Log.d(TAG, "onError: ${ex?.message}")
-                    }
-                })*/
+                Log.d(TAG, "path1:--->  ${App.context.dataDir.toString() + "/"}")
+                Log.d(TAG, "path2:--->  ${Environment.getDataDirectory().toString() + "/"}")
 
 
 
-                startActivity(Intent(this,GreenDaoActivity::class.java))
+                downLoadDb()
 
+
+
+                startActivity(Intent(this, GreenDaoActivity::class.java))
             }
 
         }
@@ -116,6 +107,83 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
 
+    }
+
+
+    fun remoteTime() {
+        val time1 = CloudTimeUtils.getInstance().cloudTimeNoAccurate
+        Log.d(TAG, "直接使用同步方法获取：${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time1)}")
+
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(5000L)
+            val time3 = CloudTimeUtils.getInstance().cloudTimeNoAccurate
+            Log.d(TAG, "5秒后重试 直接使用同步方法获取：${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time3)}")
+
+        }
+
+        Log.d(TAG, "---start request time---")
+        CloudTimeUtils.getInstance().requestAsyncCloudTime(object : SNTPClient.Listener {
+            override fun onTimeReceived(rawDate: String?, timeStamp: Long) {
+                Log.d(TAG, "onTimeReceived: rawDate: $rawDate  timeStamp: $timeStamp")
+                Log.d(TAG, "onTimeReceived: 格式化: ${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timeStamp)}")
+                val time2 = CloudTimeUtils.getInstance().cloudTimeNoAccurate
+                Log.d(TAG, "成功一次后再使用同步方法获取： ${SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time2)}")
+            }
+
+            override fun onError(ex: Exception?) {
+                Log.d(TAG, "onError: ${ex?.message}")
+            }
+        })
+    }
+
+
+    /**
+     *
+     * 下载db并写入到database
+     * greendao加载该数据库
+     *
+     * **/
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun downLoadDb() {
+        val urlStr = "https://download.jingdekeji.cn/idiom-db.db"
+        val path = App.context.dataDir.toString() + "/" + "databases" + "/" + "idiom-db.db"
+
+        FileDownloader.setup(App.context)
+
+        FileDownloader.getImpl().create(urlStr).setPath(path).setListener(
+
+            object : FileDownloadListener() {
+                override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                    Log.d("greenDAO", "pending: ")
+                }
+
+                override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                    Log.d("greenDAO", "soFarBytes: $soFarBytes  totalBytes: $totalBytes")
+
+                }
+
+                override fun completed(task: BaseDownloadTask?) {
+                    Log.d("greenDAO", "completed")
+
+                }
+
+                override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
+                    Log.d("greenDAO", "paused")
+
+                }
+
+                override fun error(task: BaseDownloadTask?, e: Throwable?) {
+                    Log.d("greenDAO", "error :${e?.message}")
+
+                }
+
+                override fun warn(task: BaseDownloadTask?) {
+                    Log.d("greenDAO", "warn")
+                }
+            }
+
+        ).start()
     }
 
 

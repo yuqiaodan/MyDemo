@@ -28,7 +28,7 @@ class App : Application() {
         super.onCreate()
         context = applicationContext
         //初始化数据库
-        DaoManager.initGreenDao(this)
+        //DaoManager.initGreenDao(this)
         //初始化MMKV
         MMKV.initialize(this)
         ActivityLifeCycle().track(this, object : ActivityLifeCycle.AppStateChangeListener {

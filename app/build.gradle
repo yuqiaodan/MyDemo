@@ -95,4 +95,6 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.3.0'
     //debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
+    implementation 'com.liulishuo.filedownloader:library:1.7.7'
+
 }
