@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.tencent.mmkv.MMKV
+import com.yuqiaodan.mydemo.greendao.DaoManager
+import com.yuqiaodan.mydemo.greendao.DaoMaster
 
 
 /**
@@ -25,6 +27,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        //初始化数据库
+        DaoManager.initGreenDao(this)
+        //初始化MMKV
+        MMKV.initialize(this)
         ActivityLifeCycle().track(this, object : ActivityLifeCycle.AppStateChangeListener {
             override fun appTurnIntoForeground() {
                 Log.d("ActivityLifeCycle", "Application从后台返回前台")
@@ -36,15 +42,18 @@ class App : Application() {
 
             }
         })
-
-        MMKV.initialize(this)
-
     }
 
 
     fun initThirdSDK() {
 
+
+
     }
+
+
+
+
 
 
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.eventbus.BusEventId
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
+import com.yuqiaodan.mydemo.ui.activity.GreenDaoActivity
 import com.yuqiaodan.mydemo.utils.EncryptUtils
 import com.yuqiaodan.mydemo.utils.time.CloudTimeUtils
 import com.yuqiaodan.mydemo.utils.time.SNTPClient
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
                 }*/
 
-                Log.d(TAG, "---start request time---")
+                /*Log.d(TAG, "---start request time---")
                 CloudTimeUtils.getInstance().requestAsyncCloudTime(object : SNTPClient.Listener {
                     override fun onTimeReceived(rawDate: String?, timeStamp: Long) {
                         Log.d(TAG, "onTimeReceived: rawDate: $rawDate  timeStamp: $timeStamp")
@@ -83,10 +84,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onError(ex: Exception?) {
                         Log.d(TAG, "onError: ${ex?.message}")
                     }
-                })
+                })*/
 
 
 
+                startActivity(Intent(this,GreenDaoActivity::class.java))
 
             }
 

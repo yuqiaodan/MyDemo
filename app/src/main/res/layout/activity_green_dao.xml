@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.GreenDaoActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/btn_insert"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_common_btn"
+            android:gravity="center"
+            android:text="写入"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/btn_get"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_common_btn"
+            android:gravity="center"
+            android:text="读取"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+
+        <TextView
+            android:id="@+id/tv_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:textColor="@color/color_333333"/>
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>
