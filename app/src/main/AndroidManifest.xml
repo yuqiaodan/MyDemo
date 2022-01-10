@@ -15,8 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".base.App"
@@ -26,15 +25,16 @@
         android:roundIcon="@mipmap/icon_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDemo">
-        <activity android:name=".ui.home.CameraActivity"/>
-        <activity android:name=".ui.home.SecondActivity" />
-        <activity android:name=".ui.simplestep.StepActivity" />
+        <activity android:name=".ui.activity.GreenDaoActivity"></activity>
+        <activity android:name=".ui.activity.CameraActivity" />
+        <activity android:name=".ui.FuncModeActivity" />
+        <activity android:name=".ui.activity.StepActivity" />
         <activity android:name=".ui.notify.NotifyActivity" />
         <activity
             android:name=".ui.notify.AlertActivity"
             android:launchMode="singleTask"
             android:taskAffinity="main.alert" />
-        <activity android:name=".ui.home.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.yuqiaodan.mydemo;
+package com.yuqiaodan.mydemo.script;
 
 import java.io.File;
 import java.io.FileOutputStream;

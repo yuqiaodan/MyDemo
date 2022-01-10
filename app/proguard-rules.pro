@@ -20,7 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
+#使用混淆字典
+#-obfuscationdictionary bt-proguard.txt
+#-classobfuscationdictionary bt-proguard.txt
+#-packageobfuscationdictionary bt-proguard.txt
 
 -keepattributes *Annotation*
 -keepclassmembers class * {

@@ -1,4 +1,4 @@
-package com.yuqiaodan.mydemo.ui.simplestep
+package com.yuqiaodan.mydemo.ui.activity
 
 import android.Manifest
 import android.content.pm.PackageManager

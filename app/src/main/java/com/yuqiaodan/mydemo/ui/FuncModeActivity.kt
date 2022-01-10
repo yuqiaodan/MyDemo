@@ -1,6 +1,7 @@
-package com.yuqiaodan.mydemo.ui.home
+package com.yuqiaodan.mydemo.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,12 +13,15 @@ import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.eventbus.BusEventId
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
+import com.yuqiaodan.mydemo.ui.activity.CameraActivity
+import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
+import com.yuqiaodan.mydemo.ui.activity.StepActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class SecondActivity : AppCompatActivity() {
-    val TAG="Second"
+class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
+    val TAG = "Second"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -25,6 +29,13 @@ class SecondActivity : AppCompatActivity() {
         findViewById<View>(R.id.btn_send_event).setOnClickListener {
             EventBus.getDefault().post(BusWrapper(BusEventId.SHOW_MSG_FROM_NEXT_ACTIVITY, "这是一条来自SecondActivity的消息"))
         }
+
+
+        findViewById<View>(R.id.btn_send_notify).setOnClickListener(this)
+        findViewById<View>(R.id.btn_step_page).setOnClickListener(this)
+        findViewById<View>(R.id.btn_camera_test).setOnClickListener(this)
+
+
     }
 
 
@@ -87,6 +98,24 @@ class SecondActivity : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         Log.d(TAG, "权限请求完毕 requestCode->$requestCode  permissions-->$permissions  grantResults-->$grantResults")
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_send_notify -> {
+                startActivity(Intent(this, NotifyActivity::class.java))
+            }
+
+            R.id.btn_step_page -> {
+                startActivity(Intent(this, StepActivity::class.java))
+            }
+
+            R.id.btn_camera_test -> {
+                startActivity(Intent(this, CameraActivity::class.java))
+
+            }
+
+        }
     }
 
 

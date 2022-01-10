@@ -1,4 +1,4 @@
-package com.yuqiaodan.mydemo.ui.home
+package com.yuqiaodan.mydemo.ui.activity
 
 import android.os.Bundle
 import android.view.animation.Animation

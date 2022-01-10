@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.MainActivity">
+    tools:context=".ui.MainActivity">
 
 
     <androidx.core.widget.NestedScrollView
@@ -12,7 +12,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -20,31 +19,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/btn_send_notify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="发送通知界面" />
 
-            <Button
-                android:id="@+id/btn_camera_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="相机测试" />
-
-            <Button
-                android:id="@+id/btn_step_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="运动计步" />
-
-
-            <Button
+            <TextView
                 android:id="@+id/btn_event_bus_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发送事件" />
+                android:background="@drawable/bg_common_btn"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="独立功能模块Demo"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_event_bus_test"
@@ -55,12 +41,17 @@
                 android:textColor="@color/color_333333"
                 android:textSize="20sp" />
 
-
-            <Button
+            <TextView
                 android:id="@+id/btn_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="测试Btn" />
+                android:background="@drawable/bg_common_btn"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="测试Btn"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
 
         </LinearLayout>
