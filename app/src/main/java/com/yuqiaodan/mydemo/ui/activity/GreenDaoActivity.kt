@@ -36,18 +36,71 @@ class GreenDaoActivity : AppCompatActivity(), View.OnClickListener {
         when (v?.id) {
             R.id.btn_insert -> {
                 //insertItem()
-
                 DaoManager.initGreenDao(App.context)
             }
 
             R.id.btn_get -> {
                 //initJson()
                 //getAllItems()
-                getAllItems()
+                //getAllItems()
+                getTopItems()
             }
 
         }
     }
+
+
+
+    fun getTopItems() {
+        val list = DaoManager.idiomDao.loadAll()
+        Log.d(TAG, "读取数据库内容  总长度 ${list.size}   count:${DaoManager.idiomDao.count()} ")
+        val gson = Gson()
+        var text = ""
+        var i=1
+        while (i<10) {
+            if(list.size>i+10){
+                text += "${gson.toJson(list[i])}" + "\n"
+            }
+            i++
+
+        }
+        findViewById<TextView>(R.id.tv_result).text = text
+
+    }
+
+    /**
+     *
+     * 从assets读取"idiom.json" 将内容转换为json对象
+     * 并写入数据库
+     *
+     * **/
+
+    fun initJson() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val strBuilder = StringBuilder()
+            try {
+                val assetManager = App.context.assets
+                val bf = BufferedReader(InputStreamReader(assetManager.open("idiom.json")))
+                strBuilder.append(bf.readText())
+                Log.d(TAG, "读取json文件完毕 字符串总长度 ${strBuilder.length}  ")
+
+                val type = object : TypeToken<List<Idiom>>() {}.type
+                val items = Gson().fromJson<List<Idiom>>(strBuilder.toString(), type)
+
+                Log.d(TAG, "json转换完毕  lis总长度 ${items.size}   \n 数据样例：${items[0]}")
+
+                for (item in items) {
+                    Log.d(TAG, "insertItem: db写入数据 ${item.word}")
+                    DaoManager.idiomDao.insert(item)
+                }
+
+
+            } catch (e: Exception) {
+
+            }
+        }
+    }
+
 
 
     fun insertItem() {
@@ -123,60 +176,6 @@ class GreenDaoActivity : AppCompatActivity(), View.OnClickListener {
 
 
     }
-
-
-
-    fun getAllItems() {
-        val list = DaoManager.idiomDao.loadAll()
-
-        val gson = Gson()
-        var text = ""
-        var i=1
-        while (i<10) {
-            if(list.size>i+10){
-                text += "${gson.toJson(list[i])}" + "\n"
-            }
-
-            i++
-
-        }
-        findViewById<TextView>(R.id.tv_result).text = text
-
-    }
-
-    /**
-     *
-     * 从assets读取"idiom.json" 将内容转换为json对象
-     * 并写入数据库
-     *
-     * **/
-
-    fun initJson() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val strBuilder = StringBuilder()
-            try {
-                val assetManager = App.context.assets
-                val bf = BufferedReader(InputStreamReader(assetManager.open("idiom.json")))
-                strBuilder.append(bf.readText())
-                Log.d(TAG, "读取json文件完毕 字符串总长度 ${strBuilder.length}  ")
-
-                val type = object : TypeToken<List<Idiom>>() {}.type
-                val items = Gson().fromJson<List<Idiom>>(strBuilder.toString(), type)
-
-                Log.d(TAG, "json转换完毕  lis总长度 ${items.size}   \n 数据样例：${items[0]}")
-
-                for (item in items) {
-                    Log.d(TAG, "insertItem: db写入数据 ${item.word}")
-                    DaoManager.idiomDao.insert(item)
-                }
-
-
-            } catch (e: Exception) {
-
-            }
-        }
-    }
-
 
 }
 

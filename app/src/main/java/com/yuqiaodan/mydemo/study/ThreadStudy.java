@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 public class ThreadStudy {
     public final static int MAG_SHOW_PROGRESS = 1;
     public final static int MAG_MAG_TEST_DELAY = 2;
-
     TextView tv;
 
     final Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -52,7 +51,6 @@ public class ThreadStudy {
         int test = 111;
 
 
-
         //simpleThread();
         Message msg1 = Message.obtain(null, new Runnable() {
             @Override
@@ -70,9 +68,12 @@ public class ThreadStudy {
         //纯handler 实现倒计时 测试
         Runnable countJob = new Runnable() {
             int countDown = 10;
+
             @Override
             public void run() {
                 if (countDown > 0) {
+                    Log.d("ThreadStudy", "hasMsg 3: " + mHandler.hasMessages(3));
+
                     mHandler.postDelayed(this, 1000L);
                     textView.setText("倒计时：" + countDown);
                     countDown--;
@@ -82,7 +83,47 @@ public class ThreadStudy {
 
             }
         };
+    }
+
+    public void test() {
+
+        //纯handler 实现倒计时 测试
+        Runnable countJob = new Runnable() {
+            int countDown = 10;
+
+            @Override
+            public void run() {
+                if (countDown > 0) {
+                    if (countDown == 7) {
+                        //Log.d("ThreadStudy", "移除 Msg 3: ");
+                       // mHandler.removeMessages(3);
+                    }
+                    Log.d("ThreadStudy", "hasMsg 3: " + mHandler.hasMessages(3));
+                    mHandler.postDelayed(this, 1000L);
+                    countDown--;
+                } else {
+                    //倒计时结束
+
+                }
+
+            }
+        };
+
+        Log.d("ThreadStudy", "hasMsg 3: " + mHandler.hasMessages(3));
+
+        //测试handler hasMessage
+        Message msg3 = Message.obtain(null, new Runnable() {
+            @Override
+            public void run() {
+                Log.d("ThreadStudy", "接收到MSG3");
+            }
+        });
+        msg3.what = 3;
+        mHandler.sendMessageDelayed(msg3, 5000L);
+        Log.d("ThreadStudy", "hasMsg 3: " + mHandler.hasMessages(3));
         mHandler.postDelayed(countJob, 1000L);
+
+
     }
 
 
@@ -118,6 +159,9 @@ public class ThreadStudy {
                     });
                     count++;
                 }
+
+
+                //new Handler(Looper.myLooper()){}
 
             }
         };

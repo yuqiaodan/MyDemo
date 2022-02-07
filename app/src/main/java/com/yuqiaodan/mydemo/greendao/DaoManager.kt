@@ -19,7 +19,7 @@ object DaoManager {
     lateinit var idiomDao: IdiomDao
 
     fun initGreenDao(context: Context) {
-        // Log.d(TAG, "insertItem: db写入数据  $item")
+        Log.d("greenDAO", "initGreenDao 初始化数据库")
         val helper = ReleaseOpenHelper(context, "idiom-db.db")
         db = helper.writableDatabase
         val session = DaoMaster(db).newSession()
@@ -30,6 +30,7 @@ object DaoManager {
     class ReleaseOpenHelper : OpenHelper {
         constructor(context: Context?, name: String?) : super(context, name)
         constructor(context: Context?, name: String?, factory: CursorFactory?) : super(context, name, factory)
+
         override fun onUpgrade(db: Database, oldVersion: Int, newVersion: Int) {
             Log.i("greenDAO", "Upgrading schema from version $oldVersion to $newVersion by dropping all tables")
             onCreate(db)

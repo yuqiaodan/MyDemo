@@ -8,8 +8,9 @@ import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
@@ -17,6 +18,7 @@ import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.base.App
 import com.yuqiaodan.mydemo.eventbus.BusEventId
 import com.yuqiaodan.mydemo.eventbus.BusWrapper
+import com.yuqiaodan.mydemo.study.ThreadStudy
 import com.yuqiaodan.mydemo.ui.activity.GreenDaoActivity
 import com.yuqiaodan.mydemo.utils.EncryptUtils
 import com.yuqiaodan.mydemo.utils.time.CloudTimeUtils
@@ -55,8 +57,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
     @SuppressLint("InvalidWakeLockTag")
-    @RequiresApi(Build.VERSION_CODES.Q)
+
     override fun onClick(v: View?) {
         when (v?.id) {
 
@@ -65,15 +68,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 //getFilePath()
                 startActivity(Intent(this, FuncModeActivity::class.java))
                 val str =
-                    "C0cTCAERGxkBLQ8BQU5SUENXVAASFQdCB1JVF0JdEERJQRUAFS0KDBAAUl8pHUcCBAA6HAcIBlZKRwUPAwrmmI7ogo3ovrvmj5dESUEdAzoBHxYXER1HSAAEDwcVSVAWBAAfEQIXOQsCGRVHSEQGDBleBAgHCwcGHwwWFwoVWgIGFwUREBIRBgYJF00OBAJQG0kYVhEVAjkLAhkVR0hEV1BARea5oOeRtOePrUdPVhkWLRUcEAAVCFBcAwIYAwBeRBUCFxsEFQM6DRUdAFBcRwAbHUsIFUsAGBUEHEQYTw9SBAIWOg0VHQBQXEfmrYHkuKTnjZvlvo7ovqwxDCUdUklQDxY8BwkWBgMIQU4WBB4VAE9WAAQRDQQEES8LEwsAQU5SBh0LSwsXXgQcAhcMHRRLFAcWFwMZAxtEGE8PUgQCFjoNFR0AUFxH5qyF5p+j5omo5LusUEpHCgcvFgsVEQYZUl8UBwkQEVxHAgcGCBUXAC0IBA4RUl9QBQoOWjwAGx8QAhpeEh4cH00aFQQACwBNExEIFwUADQAVF1AbSRhWERUCOQsCGRVHSETlr6zlvqDmubHnkbZHXkQMECsDHAESAA5WSgMTChYGWFIVEwUOAhMVOhwHCAZWSkcRCQhNBhUJGwMDTQcABBEDSw4VAxEXFEsAGBUEHAMXQQlcHlAHFRMrHgQfA0dZVumcouaZgOWEmuiCmxIKEhnkubblr4RESUEdAzoBHxYXER1HSAAEDwcVSVAWBAAfEQIXOQsCGRVHSEQGDVoRCgQHCwcGHwwWFQ4EWhQRBQUREBcfCh5IERcGUhheHUcCBAA6HAcIBlZKR+ikjeeSuuimo+mjslZcRxsVOhANAxEXC0dZEhEJAQNJQQQRBhkHAgYrHgQfA0dZVhMKH0gWEFoRCxYUCgoQXgQAEgwAGBVLBA8BBhtSGF4dRwIEADocBwgGVkpH5YSa5rG35rmg55Gl5Lmn5a+GR15EDBArAxwBEgAOVkoDEwoWBlhSFRMFDgITFTocBwgGVkpHEQkITQUFBBwLDA1aFR0CAxcXVg04XkQHERUeAVBcRwwEAApQSkcAHBELHAMJQU5SHRsHCg4dUklQBQoOBBURGxIMDBpSX1BQR09WFAAEAwkMBBUXUFxHFwYFAFBKRwcRBgwWRF9BRxJRRQJcVRVFAUYEVAJEQ10XAwRSTBRQQgdUAUdHUUVESUEdHQAbRF9BVlxHHgkGAgAZChxEXxhWEQEWFAAQB1JfUERJQRUfDBwHCAZWSkdQSkcAHQQcUFxHQVhSARsVEREdExFQXEdBWFIJExIMQU5SR15ECQwaUl9QRElBGgUIEAMXQU5SR15EFQwdHgQfA0dZVlJJUBYXDAIZCxEDR1lWUklQFAoCEFJfUERJQQcEFxcDEUFOUkcPSkcOFRNHSERRV05GU0ggJllFRl9HVl9WNlJJUAsKBxEcR0hEChMEH0UTXlZBWFIKEw8BQU5SR15EChArBgAARF9BQ15UXFdHT1YADhVEX0EXHwhcBwsHBh8MFkgXBhBeCBMIAgxWXEcCFAobDVJfUAAEDwcVR15EFwwZUl9QBQoPGwIKAURJQQYfCC0QABFWSkdHSFdNRVJJUBQKDABSX1AABA8HFUdeRBYAFR46ExYVPBgZFgZEX0FFUklQFQwOVkpHFAcJEBFSSVAVFgoQUl9QRElBAAIEEQ06ABwRCxwDCUFOUgsHCglBWFITFxQ6ABsUAFBcR1JEQFdHRElBAhUXLQgEDhFSX1BXS1NaQlBQSkcVBB5HSEQDAhgDAFAb"
+                    "C0cTCAERGxkBLQ8BQU5SAUtUXAVNSQATUVFVFUkDQURJQRUAFS0KDBAAUl8pO0lBFgIEHAJHWVYfFQIJR09WEw0TCAsGGFJfUAkVExtSSVAFCg4EFREbEgwMGlJfUFZHT1YUAAQDCQwEFRdQXEcFFRwWF0RJQRAVExsCR1lWRgYQBVZQFUUGQ14BVERIARZXAFUSSV1DAARWQ0BQRV5HT1YZCBcPR1lWUklQCgoAFQQMHQhHWQ9SBBYCFwYHA0dIROmYsOiknOedteikj+WvrOW5sOmap+WgseWNmee7lumVlui2iumckui+t+S8vOePqPCcj6rlsarljYhESUEVHwwcBwgGVkpH5Lyr54+t8JifueWxu+WNikdeRAYKAAlHSETopJrlr6rlubZSSVACDBAAAgwREkdZVumaseWgseWNiERJQRgRERtEX0FHREtAVlZUQkFHXkQJDBpSX1BXVVpaQFdGXldRVlxHHBMIARECR0hEU+WOlFZcRwIJDA0VHQBQXEfkvLrnj7/wnY+/5bG95Y2cR09WABcdEAwNFxVHSETpmLDopJznnbVSSVAUCgIQUl9Q57uE6ZWD6LaMVlxHARIXBhEER0hE57uH6ZWF6LabUhheRAgCF1JfUCVRWUBAXzRQXyFHSlZDXCNQVlxHHwkBBhhSX1AWAQEZQFVQSkcMFRkBUFxHUUM2VEVeI1A1RiNFUlVWRjFTQ18nVkZHVUQgI1dCSCBHUldaFhFTRFMAB0dEAxBXUFESFlYTVgECEEJSFwRSVlZcRx0VOhURAkdIRFxBWFIVGQFHWVYTCh9IBA0QAgobAksRERRLHwcLBBtSSVAWFwwMCUdIRAMCGAMAUEpHERsdR0hEBgwYHxcdFUdPVgIKHzkTBgZSX1BQS1JaQkdeRBcMGwRHSEQDAhgDAFBKRxAXEQstBxUTKxwMARJHWVZAR15EFgoZUl9QEhcWEVJJUBUWChBSX1AuMCIjNSxfDhxBWFIRAAcGCCsTDRMICwYYUl9QEhFBWFITFxQ6ABsUAFBcR1JEQFZHRElBAhUXLQgEDhFSX1BXS1NaQ1BQSkcVBB5HSEQDAhgDAFAb"
                 EncryptUtils.decodeString("perfect", str)
+
+                test()
+                ThreadStudy().test()
             }
 
             R.id.btn_test -> {
 
-                Log.d(TAG, "path1:--->  ${App.context.dataDir.toString() + "/"}")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "path1:--->  ${App.context.dataDir.toString() + "/"}")
+                }
                 Log.d(TAG, "path2:--->  ${Environment.getDataDirectory().toString() + "/"}")
-
+                Log.d(TAG, "path3:--->  ${App.context.filesDir.toString() + "/"}")
+                Log.d(TAG, "path4:--->  ${App.context.cacheDir.toString() + "/"}")
+                Log.d(TAG, "path5:--->  ${App.context.obbDir.toString() + "/"}")
+                //Log.d(TAG, "path6:--->  ${App.context.getDatabasePath().toString() + "/"}")
 
 
                 downLoadDb()
@@ -144,11 +155,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      *
      * **/
 
-    @RequiresApi(Build.VERSION_CODES.N)
+
     fun downLoadDb() {
         val urlStr = "https://download.jingdekeji.cn/idiom-db.db"
-        val path = App.context.dataDir.toString() + "/" + "databases" + "/" + "idiom-db.db"
+        //App.context.getDir("", Context.MODE_PRIVATE)
+        //val path =   App.context.getDir("", Context.MODE_PRIVATE).toString() + "/" + "databases" + "/" + "idiom-db.db"
+        val path = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            App.context.dataDir.toString() + "/" + "databases" + "/" + "idiom-db.db"
+        } else {
+            App.context.cacheDir.toString().replace("cache", "databases") + "/" + "idiom-db.db"
+        }
 
+        Log.d("greenDAO", "下载数据库存储地址:$path ")
         FileDownloader.setup(App.context)
 
         FileDownloader.getImpl().create(urlStr).setPath(path).setListener(
@@ -159,7 +177,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
-                    Log.d("greenDAO", "soFarBytes: $soFarBytes  totalBytes: $totalBytes")
+                    //Log.d("greenDAO", "soFarBytes: $soFarBytes  totalBytes: $totalBytes")
 
                 }
 
@@ -184,6 +202,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         ).start()
+    }
+
+
+    fun test() {
+        val map = hashMapOf<String, String>(Pair("1", "1"), Pair("2", "2"), Pair("3", "4"))
+        val json = Gson().toJson(map)
+        Log.d(TAG, "test: map转json后的值-->$json")
+        val type = object : TypeToken<Map<String, String>>() {}.type
+        val newMap = Gson().fromJson<Map<String, String>>(json, type)
+        Log.d(TAG, "test: json重新转map-->$newMap")
     }
 
 
