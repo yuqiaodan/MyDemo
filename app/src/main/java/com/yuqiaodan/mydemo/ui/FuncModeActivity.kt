@@ -25,41 +25,31 @@ class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
-        EventBus.getDefault().register(this)
-        findViewById<View>(R.id.btn_send_event).setOnClickListener {
-            EventBus.getDefault().post(BusWrapper(BusEventId.SHOW_MSG_FROM_NEXT_ACTIVITY, "这是一条来自SecondActivity的消息"))
-        }
-
-
         findViewById<View>(R.id.btn_send_notify).setOnClickListener(this)
         findViewById<View>(R.id.btn_step_page).setOnClickListener(this)
         findViewById<View>(R.id.btn_camera_test).setOnClickListener(this)
-
-
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN, priority = 2, sticky = true)
-    fun onReceiveMessage(msg: BusWrapper) {
-        Log.d("BusTest", "SecondActivity 收到事件：${msg.id}  事件内容：${msg.getContent()?.toString()}")
-        if (msg.verifyMessage(BusEventId.SHOW_MSG_FROM_NEXT_ACTIVITY)) {
-            findViewById<TextView>(R.id.tv_event).text = msg.getContent()?.toString()
-            //EventBus.getDefault().cancelEventDelivery(msg)
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.btn_send_notify -> {
+                startActivity(Intent(this, NotifyActivity::class.java))
+            }
+
+            R.id.btn_step_page -> {
+                startActivity(Intent(this, StepActivity::class.java))
+            }
+
+            R.id.btn_camera_test -> {
+                startActivity(Intent(this, CameraActivity::class.java))
+
+            }
+
         }
-
-        if (msg.verifyMessage(BusEventId.SHOW_STICK_MSG_FROM_NEXT_ACTIVITY)) {
-            findViewById<TextView>(R.id.tv_event).text = msg.getContent()?.toString()
-            //Log.d("BusTest", "黏性事件内容 ${msg.getContent()?.toString()}")
-        }
-
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        //EventBus.getDefault().unregister(this)
-
-    }
 
 
     private fun requestSplashPerm(): Boolean {
@@ -98,24 +88,6 @@ class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         Log.d(TAG, "权限请求完毕 requestCode->$requestCode  permissions-->$permissions  grantResults-->$grantResults")
-    }
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btn_send_notify -> {
-                startActivity(Intent(this, NotifyActivity::class.java))
-            }
-
-            R.id.btn_step_page -> {
-                startActivity(Intent(this, StepActivity::class.java))
-            }
-
-            R.id.btn_camera_test -> {
-                startActivity(Intent(this, CameraActivity::class.java))
-
-            }
-
-        }
     }
 
 

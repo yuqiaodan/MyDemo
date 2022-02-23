@@ -89,8 +89,7 @@ class NotifyActivity : AppCompatActivity() {
         val pendingIntent1: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         val pendingIntent2: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
 
-        val notificationLayout =
-            RemoteViews(packageName, R.layout.notify_my_first)
+        val notificationLayout = RemoteViews(packageName, R.layout.notify_my_first)
         notificationLayout.setOnClickPendingIntent(
             R.id.img,
             pendingIntent1
