@@ -7,18 +7,13 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
-import com.yuqiaodan.mydemo.eventbus.BusEventId
-import com.yuqiaodan.mydemo.eventbus.BusWrapper
 import com.yuqiaodan.mydemo.ui.activity.CameraActivity
-import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
 import com.yuqiaodan.mydemo.ui.activity.StepActivity
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
+import com.yuqiaodan.mydemo.ui.activity.TopStickActivity
+import com.yuqiaodan.mydemo.ui.notify.NotifyActivity
 
 class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
     val TAG = "Second"
@@ -28,6 +23,8 @@ class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_send_notify).setOnClickListener(this)
         findViewById<View>(R.id.btn_step_page).setOnClickListener(this)
         findViewById<View>(R.id.btn_camera_test).setOnClickListener(this)
+        findViewById<View>(R.id.btn_top_stick).setOnClickListener(this)
+
     }
 
 
@@ -43,13 +40,13 @@ class FuncModeActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_camera_test -> {
                 startActivity(Intent(this, CameraActivity::class.java))
-
+            }
+            R.id.btn_top_stick -> {
+                startActivity(Intent(this, TopStickActivity::class.java))
             }
 
         }
     }
-
-
 
 
     private fun requestSplashPerm(): Boolean {

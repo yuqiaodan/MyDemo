@@ -26,6 +26,10 @@
         android:roundIcon="@mipmap/icon_app"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDemo">
+        <activity
+            android:name=".ui.activity.TopStickActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".ui.widget.NewAppWidget"
             android:exported="true">
