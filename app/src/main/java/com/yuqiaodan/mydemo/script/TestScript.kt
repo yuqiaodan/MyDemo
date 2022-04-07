@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
     //print(json.getJSONObject("cloud_config"))
 
 
-    val num1 = 11.2 as Double
+  /*  val num1 = 11.2 as Double
     val num2=101.34
     print("num1*num2=${num1 * num2}\n")
     val result1 = DoubleCalculateUtils.mul(num1, num2)
@@ -29,9 +29,14 @@ fun main(args: Array<String>) {
 
     print(" 四舍五入 保留1 =${DoubleCalculateUtils.round(599.1999991,1)}\n")
     print(" 四舍五入 保留0 =${DoubleCalculateUtils.round(599.1999991,0)}\n")
+*/
 
 
-
+    val list= arrayListOf<Int?>()
+    list.add(0)
+    list.add(1)
+    list.add(5)
+    print(" $list")
 
 }
 
