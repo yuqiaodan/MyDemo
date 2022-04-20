@@ -43,7 +43,7 @@
                 android:layout_height="1000dp"
                 android:background="#8C91FF"
                 android:gravity="center"
-                android:text="Content 1"
+                android:text="Content 2"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
