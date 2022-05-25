@@ -26,7 +26,6 @@ class TopStickActivity : AppCompatActivity() {
         val viewContent1 = findViewById<TextView>(R.id.view_1)
         val tabTop = findViewById<TextView>(R.id.view_tab_top)
         val tab = findViewById<TextView>(R.id.view_tab)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             scrollView.setOnScrollChangeListener(object : View.OnScrollChangeListener {
                 override fun onScrollChange(v: View?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int) {

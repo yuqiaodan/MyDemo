@@ -1,6 +1,5 @@
 package com.yuqiaodan.mydemo.script
 
-import com.yuqiaodan.mydemo.utils.DoubleCalculateUtils
 import java.text.DecimalFormat
 
 /**
@@ -11,7 +10,24 @@ import java.text.DecimalFormat
 
 fun main(args: Array<String>) {
 
+    val list = listOf(Allo("1", 2), Allo("1", 3), Allo("1", 10), Allo("1", 9), Allo("1", 1))
 
+
+    val list1=  list.sortedBy {
+        it.id
+    }
+
+    val list2=list.sortedByDescending {
+        it.id
+    }
+
+    print(
+        " ${list1.toString()}"
+    )
+
+    print(
+        " ${list2.toString()}"
+    )
     /*val str1 = "MTIzZTEyMzEyMzEyMzEyMzEyMzEyMzEyMzEyMzEyMw=="
     print(String(Base64.decode(str1, Base64.NO_WRAP)) + "\n")
     val str2 = "MTIzZTEyMzEyMzEyMzEyMzEyMzEyMzEyMzEyMzEyMw"
@@ -20,25 +36,24 @@ fun main(args: Array<String>) {
     //print(json.getJSONObject("cloud_config"))
 
 
-  /*  val num1 = 11.2 as Double
-    val num2=101.34
-    print("num1*num2=${num1 * num2}\n")
-    val result1 = DoubleCalculateUtils.mul(num1, num2)
-    print(" DoubleCalculateUtils.mul num*100.0=${result1}\n")
+    /*  val num1 = 11.2 as Double
+      val num2=101.34
+      print("num1*num2=${num1 * num2}\n")
+      val result1 = DoubleCalculateUtils.mul(num1, num2)
+      print(" DoubleCalculateUtils.mul num*100.0=${result1}\n")
 
 
-    print(" 四舍五入 保留1 =${DoubleCalculateUtils.round(599.1999991,1)}\n")
-    print(" 四舍五入 保留0 =${DoubleCalculateUtils.round(599.1999991,0)}\n")
-*/
-
-
-    val list= arrayListOf<Int?>()
-    list.add(0)
-    list.add(1)
-    list.add(5)
-    print(" $list")
+      print(" 四舍五入 保留1 =${DoubleCalculateUtils.round(599.1999991,1)}\n")
+      print(" 四舍五入 保留0 =${DoubleCalculateUtils.round(599.1999991,0)}\n")
+  */
 
 }
+
+class Allo(
+    val name: String,
+    val id: Int
+)
+
 
 const val KB = 1024L
 const val MB = 1048576L

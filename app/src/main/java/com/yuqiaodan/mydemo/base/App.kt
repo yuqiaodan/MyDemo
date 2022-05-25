@@ -45,15 +45,6 @@ class App : Application() {
     }
 
 
-    fun initThirdSDK() {
-
-
-
-    }
-
-
-
-
 
 
 }

@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'org.greenrobot.greendao' // apply plugin
+    //id 'stringfog'
+
 }
 
 android {
@@ -74,6 +76,18 @@ greendao {
     daoPackage 'com.yuqiaodan.mydemo.greendao'
 }
 
+/*stringfog {
+    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
+    implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
+    // 可选：加密开关，默认开启。
+    enable true
+    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
+    //fogPackages = ['com.xxx.xxx']
+    // 可选：调试信息打印开关，默认关闭。
+    debug true
+}*/
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -84,20 +98,26 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    //mmkv
     implementation 'com.tencent:mmkv-static:1.2.10'
-
+    //gson
     implementation 'com.google.code.gson:gson:2.8.6'
-
+    //kotlin 携程
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    //event bus
     implementation 'org.greenrobot:eventbus:3.3.1'
-
+    //camera view相机框架
     implementation "com.otaliastudios:cameraview:2.7.2"
-
     //greendao 数据库
     implementation 'org.greenrobot:greendao:3.3.0'
-    //debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
-
+    //文件下载器
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
+    //Rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    // 这里要和上面选用的加解密算法库一致，用于运行时解密。
+    implementation 'com.github.megatronking.stringfog:xor:3.0.0'
 
 }

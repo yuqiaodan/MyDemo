@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.base.AppStorage
 
+/**
+ * 简单计步器界面
+ * */
 class StepActivity : AppCompatActivity(), SensorEventListener {
 
     private val TAG = "stepTag"

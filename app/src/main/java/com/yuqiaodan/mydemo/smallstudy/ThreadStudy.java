@@ -1,4 +1,4 @@
-package com.yuqiaodan.mydemo.study;
+package com.yuqiaodan.mydemo.smallstudy;
 
 
 import android.os.Handler;

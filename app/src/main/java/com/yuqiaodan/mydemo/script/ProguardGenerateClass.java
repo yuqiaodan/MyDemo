@@ -15,13 +15,13 @@ import java.util.Random;
 public class ProguardGenerateClass {
 
     //字典样本
-    private static List<String> SOURCE = Arrays.asList( "W","M","N");
+    private static List<String> SOURCE = Arrays.asList( "b","q","d","p");
     //字典行数
-    private static int LENGTH = 10000;
+    private static int LENGTH = 30000;
     //输出路径
     private static final String ROOT_PATH = System.getProperty("user.dir") + "/app/";
     //输出名称
-    private static final String FILE_NAME = "bt-proguard.txt";
+    private static final String FILE_NAME = "proguard_dictionary.txt";
 
     private static Random random = new Random();
 

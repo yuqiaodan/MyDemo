@@ -15,6 +15,11 @@ import androidx.core.app.NotificationManagerCompat
 import com.yuqiaodan.mydemo.R
 import com.yuqiaodan.mydemo.base.App
 
+/**
+ * 发送通知界面
+ * - 普通通知
+ * - 常驻通知(远程通知)
+ * */
 class NotifyActivity : AppCompatActivity() {
 
     var notifyId = 1
